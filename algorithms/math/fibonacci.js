@@ -1,32 +1,12 @@
 /**
- * Copyright (C) 2014 Felipe Ribeiro
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to
- * deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
- * sell copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
- */
-
-/**
  * Different implementations of the Fibonacci sequence
  *
  * @author Felipe Ribeiro <felipernb@gmail.com>
  */
 
 'use strict';
+
+var power = require('./fast_power');
 
 /**
   * Regular fibonacci implementation following the definition:
@@ -78,7 +58,49 @@ var fibWithMemoization = (function () {
   return fib;
 })();
 
+/**
+  * Implementation using Binet's formula with the rounding trick.
+  * O(1) in time, O(1) in space
+  *
+  * @author Eugene Sharygin
+  * @param Number
+  * @return Number
+  */
+var fibDirect = function (number) {
+  var phi = (1 + Math.sqrt(5)) / 2;
+  return Math.floor(Math.pow(phi, number) / Math.sqrt(5) + 0.5);
+};
+
+/**
+  * Implementation based on matrix exponentiation.
+  * O(log(n)) in time, O(1) in space
+  *
+  * @author Eugene Sharygin
+  * @param Number
+  * @return Number
+  */
+var fibLogarithmic = function (number) {
+  // Transforms [f_1, f_0] to [f_2, f_1] and so on.
+  var nextFib = [[1, 1], [1, 0]];
+
+  var matrixMultiply = function (a, b) {
+    return [[a[0][0] * b[0][0] + a[0][1] * b[1][0],
+             a[0][0] * b[0][1] + a[0][1] * b[1][1]],
+            [a[1][0] * b[0][0] + a[1][1] * b[1][0],
+             a[1][0] * b[0][1] + a[1][1] * b[1][1]]];
+  };
+
+  var transform = power(nextFib, number, matrixMultiply, [[1, 0], [0, 1]]);
+
+  // [f_n, f_{n-1}] = Transform * [f_0, f_{-1}] = Transform * [0, 1]
+  // Hence the result is the first row of Transform multiplied by [0, 1],
+  // which is the same as transform[0][1].
+  return transform[0][1];
+};
+
 // Use fibLinear as the default implementation
 fibLinear.exponential = fibExponential;
 fibLinear.withMemoization = fibWithMemoization;
+fibLinear.direct = fibDirect;
+fibLinear.logarithmic = fibLogarithmic;
 module.exports = fibLinear;

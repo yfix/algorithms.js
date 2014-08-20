@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2014 Felipe Ribeiro
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to
- * deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
- * sell copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
- */
 'use strict';
 
 var heap = require('../../data_structures/heap'),
@@ -74,6 +53,22 @@ describe('Min Heap', function () {
 
     assert(h.isEmpty());
   });
+
+  it('should perform a function to all elements from smallest to largest' +
+     ' with forEach', function () {
+    var h = new heap.MinHeap();
+    h.heapify([3, 10, 1000, 0, 2, 1]);
+
+    var output = [];
+    h.forEach(function (n) {
+      output.push(n);
+    });
+
+    assert.deepEqual(output, [0, 1, 2, 3, 10, 1000]);
+
+    // Make sure nothing was really removed
+    assert.equal(h.n, 6);
+  });
 });
 
 describe('Max Heap', function () {
@@ -125,5 +120,18 @@ describe('Max Heap', function () {
     assert.equal(h.extract(), 0);
 
     assert(h.isEmpty());
+  });
+
+  it('should perform a function to all elements from largest to smallest' +
+     ' with forEach', function () {
+    var h = new heap.MaxHeap();
+    h.heapify([3, 10, 1000, 0, 2, 1]);
+
+    var output = [];
+    h.forEach(function (n) {
+      output.push(n);
+    });
+
+    assert.deepEqual(output, [1000, 10, 3, 2, 1, 0]);
   });
 });

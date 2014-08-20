@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2014 Felipe Ribeiro
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to
- * deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
- * sell copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
- */
 'use strict';
 
 /**
@@ -59,8 +38,8 @@ LinkedList.prototype.isEmpty = function () {
 /**
  * Adds the element to the end of the list or to the desired index
  *
- * @param misc
- * @param Number
+ * @param { Object } n
+ * @param { Number } index
  */
 LinkedList.prototype.add = function (n, index) {
   if (index > this.length || index < 0) {
@@ -73,7 +52,7 @@ LinkedList.prototype.add = function (n, index) {
     var prevNode,
         nextNode;
 
-    if (index  === 0) {
+    if (index === 0) {
       // Insert in the beginning
       nextNode = this.head;
       this.head = node;
@@ -102,7 +81,7 @@ LinkedList.prototype.add = function (n, index) {
 /**
  * Return the value associated to the Node on the given index
  *
- * @param Number
+ * @param { Number } index
  * @return misc
  */
 LinkedList.prototype.get = function (index) {
@@ -112,7 +91,7 @@ LinkedList.prototype.get = function (index) {
 /**
  * O(n) get
  *
- * @param Number
+ * @param { Number } index
  * @return Node
  */
 LinkedList.prototype.getNode = function (index) {
@@ -131,14 +110,17 @@ LinkedList.prototype.getNode = function (index) {
 /**
  * Delete the element in the indexth position
  *
- * @param Number
+ * @param { Number } index
  */
 LinkedList.prototype.del = function (index) {
   if (index >= this.length || index < 0) {
     throw new Error('Index out of bounds');
   }
-  var node = this.getNode(index);
 
+  this.delNode(this.getNode(index));
+};
+
+LinkedList.prototype.delNode = function (node) {
   if (node === this.tail) {
     // node is the last element
     this.tail = node.prev;
@@ -158,7 +140,7 @@ LinkedList.prototype.del = function (index) {
 /**
  * Performs the fn function with each element in the list
  */
-LinkedList.prototype.map = function (fn) {
+LinkedList.prototype.forEach = function (fn) {
   var node = this.head;
   while (node) {
     fn(node.value);

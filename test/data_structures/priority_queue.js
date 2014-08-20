@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2014 Felipe Ribeiro
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to
- * deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
- * sell copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
- */
 'use strict';
 
 var PriorityQueue = require('../../data_structures/priority_queue'),
@@ -86,13 +65,45 @@ describe('Min Priority Queue', function () {
     assert(!q.isEmpty());
 
     q.changePriority('b', 0);
-    assert.equal(q.extract(), 'b');
-    assert.equal(q.extract(), 'd');
-    assert.equal(q.extract(), 'c');
-    assert.equal(q.extract(), 'e');
-    assert.equal(q.extract(), 'a');
+    q.changePriority('a', 1);
+    q.changePriority('c', 50);
+    q.changePriority('d', 1000);
+    q.changePriority('e', 2);
 
+    assert.equal(q.extract(), 'b');
+    assert.equal(q.extract(), 'a');
+    assert.equal(q.extract(), 'e');
+    assert.equal(q.extract(), 'c');
+    assert.equal(q.extract(), 'd');
+    assert(q.isEmpty());
   });
+
+  it('should just update the priority when trying to insert an element that ' +
+      ' already exists', function () {
+    var q = new PriorityQueue({
+      a: 10,
+      b: 2091,
+      c: 4,
+      d: 1,
+      e: 5
+    });
+
+    assert(!q.isEmpty());
+
+    q.insert('b', 0);
+    q.insert('a', 1);
+    q.insert('c', 50);
+    q.insert('d', 1000);
+    q.insert('e', 2);
+
+    assert.equal(q.extract(), 'b');
+    assert.equal(q.extract(), 'a');
+    assert.equal(q.extract(), 'e');
+    assert.equal(q.extract(), 'c');
+    assert.equal(q.extract(), 'd');
+    assert(q.isEmpty());
+  });
+
 });
 
 

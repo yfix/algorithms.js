@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2014 Felipe Ribeiro
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to
- * deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
- * sell copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
- */
 'use strict';
 
 var BST = require('../../data_structures/bst'),
@@ -88,76 +67,76 @@ describe('Binary Search Tree', function () {
 
 
   it('should remove a leaf without altering anything else in ' +
-      'the structure of the tree', function () {
+    'the structure of the tree', function () {
 
-    bst.remove(0);
-    /**
-     *            4
-     *       2          8
-     *    1     3    5     10
-     *       2.5               100
-     */
-    var a = [];
-    bfs(bst.root, callbackGenerator(a));
-    assert.deepEqual(a, [4, 2, 8, 1, 3, 5, 10, 2.5, 100]);
-  });
+      bst.remove(0);
+      /**
+       *            4
+       *       2          8
+       *    1     3    5     10
+       *       2.5               100
+       */
+      var a = [];
+      bfs(bst.root, callbackGenerator(a));
+      assert.deepEqual(a, [4, 2, 8, 1, 3, 5, 10, 2.5, 100]);
+    });
 
   it('should remove an element with just one child and substitute ' +
-      'it as the root of only subtree', function () {
+    'it as the root of only subtree', function () {
 
-    bst.remove(10);
-    /**
-     *            4
-     *       2          8
-     *    1     3    5     100
-     *       2.5
-     */
-    var a = [];
-    bfs(bst.root, callbackGenerator(a));
-    assert.deepEqual(a, [4, 2, 8, 1, 3, 5, 100, 2.5]);
-  });
+      bst.remove(10);
+      /**
+       *            4
+       *       2          8
+       *    1     3    5     100
+       *       2.5
+       */
+      var a = [];
+      bfs(bst.root, callbackGenerator(a));
+      assert.deepEqual(a, [4, 2, 8, 1, 3, 5, 100, 2.5]);
+    });
 
   it('should substitute an element by the leftmost child in the right ' +
-      'subtree and remove it as a leaf', function () {
-    /**
-     *            4
-     *       2          8
-     *    1     3    5     100
-     *       2.5
-     */
-    bst.remove(2);
-    /**
-     *            4
-     *       2.5        8
-     *     1     3    5     100
-     *
-     */
-    var a = [];
-    bfs(bst.root, callbackGenerator(a));
-    assert.deepEqual(a, [4, 2.5, 8, 1, 3, 5, 100]);
+    'subtree and remove it as a leaf', function () {
+      /**
+       *            4
+       *       2          8
+       *    1     3    5     100
+       *       2.5
+       */
+      bst.remove(2);
+      /**
+       *            4
+       *       2.5        8
+       *     1     3    5     100
+       *
+       */
+      var a = [];
+      bfs(bst.root, callbackGenerator(a));
+      assert.deepEqual(a, [4, 2.5, 8, 1, 3, 5, 100]);
 
-    bst.remove(4);
-    /**
-     *            5
-     *       2.5        8
-     *     1     3        100
-     *
-     */
-    a = [];
-    bfs(bst.root, callbackGenerator(a));
-    assert.deepEqual(a, [5, 2.5, 8, 1, 3, 100]);
+      bst.remove(4);
+      /**
+       *            5
+       *       2.5        8
+       *     1     3        100
+       *
+       */
+      a = [];
+      bfs(bst.root, callbackGenerator(a));
+      assert.deepEqual(a, [5, 2.5, 8, 1, 3, 100]);
 
-    bst.remove(2.5);
-    /**
-     *            5
-     *        3        8
-     *     1              100
-     *
-     */
-    a = [];
-    bfs(bst.root, callbackGenerator(a));
-    assert.deepEqual(a, [5, 3, 8, 1, 100]);
-  });
+      bst.remove(2.5);
+      /**
+       *            5
+       *        3        8
+       *     1              100
+       *
+       */
+      a = [];
+      bfs(bst.root, callbackGenerator(a));
+      assert.deepEqual(a, [5, 3, 8, 1, 100]);
+    });
 
   it('should always return the right root and size', function () {
     var bst = new BST();
@@ -194,14 +173,15 @@ describe('Binary Search Tree with custom comparator', function () {
     return a.length < b.length ? -1 : 1;
   };
 
-  it('should insert elements respecting the BST restrictions', function () {
-    var bst = new BST(strLenCompare);
-    bst.insert('banana');
-    bst.insert('apple');
-    bst.insert('pineapple');
-    bst.insert('watermelon');
-    assert.equal(bst.size, 4);
-  });
+  it(
+    'should insert elements respecting the BST restrictions', function () {
+      var bst = new BST(strLenCompare);
+      bst.insert('banana');
+      bst.insert('apple');
+      bst.insert('pineapple');
+      bst.insert('watermelon');
+      assert.equal(bst.size, 4);
+    });
 
   it('should check if an element exists (in O(lg n))', function () {
     var bst = new BST(strLenCompare);
@@ -245,42 +225,42 @@ describe('Binary Search Tree with custom comparator', function () {
   });
 
   it('should remove a leaf without altering anything else in ' +
-      'the structure of the tree', function () {
+    'the structure of the tree', function () {
 
-    bst.remove('watermelon');
-    /**
-     *           'banana'
-     *     'apple'      'pineapple'
-     *  'pear'
-     */
-    var a = [];
-    bfs(bst.root, callbackGenerator(a));
-    assert.deepEqual(a, ['banana', 'apple', 'pineapple', 'pear']);
-  });
+      bst.remove('watermelon');
+      /**
+       *           'banana'
+       *     'apple'      'pineapple'
+       *  'pear'
+       */
+      var a = [];
+      bfs(bst.root, callbackGenerator(a));
+      assert.deepEqual(a, ['banana', 'apple', 'pineapple', 'pear']);
+    });
 
   it('should remove an element with just one child and substitute ' +
-      'it as the root of only subtree', function () {
+    'it as the root of only subtree', function () {
 
-    bst.remove('apple');
-    /**
-     *           'banana'
-     *     'pear'      'pineapple'
-     */
-    var a = [];
-    bfs(bst.root, callbackGenerator(a));
-    assert.deepEqual(a, ['banana', 'pear', 'pineapple']);
-  });
+      bst.remove('apple');
+      /**
+       *           'banana'
+       *     'pear'      'pineapple'
+       */
+      var a = [];
+      bfs(bst.root, callbackGenerator(a));
+      assert.deepEqual(a, ['banana', 'pear', 'pineapple']);
+    });
 
   it('should substitute an element by the leftmost child in the right ' +
-      'subtree and remove it as a leaf', function () {
+    'subtree and remove it as a leaf', function () {
 
-    bst.remove('banana');
-    /**
-     *       'pineapple'
-     *   'pear'
-     */
-    var a = [];
-    bfs(bst.root, callbackGenerator(a));
-    assert.deepEqual(a, ['pineapple', 'pear']);
-  });
+      bst.remove('banana');
+      /**
+       *       'pineapple'
+       *   'pear'
+       */
+      var a = [];
+      bfs(bst.root, callbackGenerator(a));
+      assert.deepEqual(a, ['pineapple', 'pear']);
+    });
 });

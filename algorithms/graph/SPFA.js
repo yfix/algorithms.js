@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2014 Shu Ding
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to
- * deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
- * sell copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
- */
 'use strict';
 
 /**
@@ -32,26 +11,29 @@
 function SPFA(graph, s) {
   var distance = {};
   var previous = {};
-  var queue    = {};
-  var isInQue  = {};
-  var head     = 0;
-  var tail     = 1;
+  var queue = {};
+  var isInQue = {};
+  var cnt = {};
+  var head = 0;
+  var tail = 1;
   // initialize
   distance[s] = 0;
   queue[0] = s;
   isInQue[s] = true;
+  cnt[s] = 1;
   graph.vertices.forEach(function (v) {
     if (v !== s) {
       distance[v] = Infinity;
-	  isInQue[v] = false;
+      isInQue[v] = false;
+      cnt[v] = 0;
     }
   });
-  
+
   var currNode;
   while (head != tail) {
-	currNode = queue[head++];
-	isInQue[currNode] = false;
-	var neighbors = graph.neighbors(currNode);
+    currNode = queue[head++];
+    isInQue[currNode] = false;
+    var neighbors = graph.neighbors(currNode);
     for (var i = 0; i < neighbors.length; i++) {
       var v = neighbors[i];
       // relaxation
@@ -59,14 +41,20 @@ function SPFA(graph, s) {
       if (newDistance < distance[v]) {
         distance[v] = newDistance;
         previous[v] = currNode;
-        if (!isInQue[v]){
-	      queue[tail++] = v;
-	      isInQue[v] = true;
-	    }
+        if (!isInQue[v]) {
+          queue[tail++] = v;
+          isInQue[v] = true;
+          cnt[v]++;
+          if (cnt[v] > graph.vertices.length)
+            // indicates negative-weighted cycle
+            return {
+              distance: {}
+            };
+        }
       }
     }
   }
-  
+
   return {
     distance: distance,
     previous: previous

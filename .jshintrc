@@ -12,6 +12,7 @@
   "strict": true,
   "maxlen": 80,
   "white": true,
+  "trailing": true,
   "curly": false,
   "globals": {
     "describe"   : false,
